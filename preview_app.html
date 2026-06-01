@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CNCIA – Preview das Telas</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; font-family: 'Segoe UI', sans-serif; display: flex; gap: 24px; padding: 32px; justify-content: center; flex-wrap: wrap; }
+  h1 { color: #FFC107; text-align: center; width: 100%; margin-bottom: 8px; font-size: 22px; letter-spacing: 1px; }
+  .subtitle { color: #aaa; text-align: center; width: 100%; margin-bottom: 28px; font-size: 13px; }
+
+  /* PHONE FRAME */
+  .phone { width: 320px; background: #f5f6fa; border-radius: 32px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 6px solid #2a2a3e; }
+  .phone-label { background: #2a2a3e; color: #FFC107; text-align: center; font-size: 11px; font-weight: 700; padding: 6px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* STATUS BAR */
+  .status-bar { background: #1C2B3A; height: 24px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px; gap: 6px; }
+  .status-bar span { color: #fff; font-size: 9px; }
+
+  /* APPBAR */
+  .appbar { background: #1C2B3A; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .appbar .title { color: #fff; font-size: 15px; font-weight: 700; flex: 1; }
+  .appbar .icon { color: #aaa; font-size: 18px; }
+  .appbar .amber { color: #FFC107; }
+
+  /* SEARCH BAR */
+  .search-bar { background: #fff; margin: 10px; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border: 1px solid #e8e8e8; }
+  .search-bar input { border: none; outline: none; flex: 1; font-size: 12px; color: #333; background: transparent; }
+  .search-bar .icon { color: #bbb; font-size: 16px; }
+
+  /* TABS */
+  .tabs { display: flex; border-bottom: 1px solid #e8e8e8; background: #fff; }
+  .tab { flex: 1; text-align: center; padding: 8px; font-size: 12px; font-weight: 600; border-bottom: 2px solid transparent; color: #999; }
+  .tab.active { color: #FFC107; border-bottom-color: #FFC107; }
+
+  /* FILTER CHIPS */
+  .filter-row { padding: 8px 10px; display: flex; gap: 6px; overflow-x: auto; background: #f5f6fa; }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .chip { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+  .chip.active { background: #FFC107; color: #1C2B3A; }
+  .chip.inactive { background: #fff; color: #555; border: 1px solid #ddd; }
+  .chip.fanuc { border-color: #0057A8; color: #0057A8; }
+  .chip.siemens { border-color: #009999; color: #009999; }
+  .chip.haas { border-color: #CC0000; color: #CC0000; }
+  .chip.heiden { border-color: #006633; color: #006633; }
+
+  /* SECTION HEADER */
+  .section-header { padding: 10px 12px 4px; font-size: 11px; font-weight: 700; color: #999; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* CODE CARD */
+  .code-card { background: #fff; margin: 4px 10px; border-radius: 10px; padding: 10px 12px; display: flex; align-items: flex-start; gap: 10px; border: 0.5px solid #f0f0f0; cursor: pointer; transition: box-shadow 0.2s; }
+  .code-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .code-card.fav { border-color: rgba(231,76,60,0.3); border-width: 1.5px; }
+
+  .code-icon { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; text-align: center; flex-shrink: 0; }
+  .code-icon.g { background: #FFF3DC; color: #BA7517; }
+  .code-icon.m { background: #E1F5EE; color: #2E7D32; }
+
+  .code-info { flex: 1; min-width: 0; }
+  .code-name { font-size: 13px; font-weight: 500; color: #222; }
+  .code-desc { font-size: 11px; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .code-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+
+  .badge { padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 600; }
+  .badge.maq-centro { background: #E6F1FB; color: #1565C0; }
+  .badge.maq-torno { background: #FAECE7; color: #993C1D; }
+  .badge.fab-fanuc { background: #E6EFF9; color: #0057A8; }
+  .badge.fab-siemens { background: #E0F4F4; color: #009999; }
+  .badge.fab-haas { background: #FAE6E6; color: #CC0000; }
+  .badge.fab-heiden { background: #E6F4EC; color: #006633; }
+  .badge.fab-mazak { background: #E6EEF7; color: #004B8D; }
+  .badge.fab-okuma { background: #F5E6E6; color: #8B0000; }
+  .badge.diagrama { background: rgba(255,193,7,0.12); color: #FFC107; display: flex; align-items: center; gap: 3px; }
+
+  .fav-icon { color: #ddd; font-size: 18px; margin-left: 4px; align-self: center; }
+  .fav-icon.active { color: #e74c3c; }
+
+  /* ===== TELA DETALHE ===== */
+  .detail-screen { background: #f5f6fa; }
+  .detail-body { padding: 14px; overflow-y: auto; max-height: 580px; }
+  .detail-body::-webkit-scrollbar { display: none; }
+
+  .detail-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .detail-chip { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+  .detail-chip.g { background: #FFF3DC; color: #BA7517; }
+  .detail-chip.cat { background: #f0f0f0; color: #666; }
+  .detail-chip.maq { background: #E6F1FB; color: #1565C0; }
+  .detail-chip.fab { background: #FAE6E6; color: #CC0000; }
+
+  /* DIAGRAMA CARD */
+  .detail-card { background: #fff; border-radius: 12px; border: 1px solid #f0f0f0; padding: 14px; margin-bottom: 12px; }
+  .detail-card-header { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .detail-card-header.amber { color: #FFC107; }
+  .detail-card-header.blue { color: #1565C0; }
+  .detail-card-header.green { color: #2E7D32; }
+  .detail-card-header.orange { color: #BA7517; }
+
+  /* SVG DIAGRAMA */
+  .diagrama-container { display: flex; justify-content: center; align-items: center; padding: 10px 0; }
+  svg.diagrama { border-radius: 8px; }
+
+  /* TEXTO */
+  .detail-text { font-size: 13px; line-height: 1.7; color: #333; }
+
+  .code-block { background: #1C2B3A; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 12px; color: #FFC107; line-height: 1.6; }
+  .code-block.green { color: #7EC8A4; }
+
+  .param-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+  .param-letter { width: 26px; height: 26px; border-radius: 6px; background: #FFF3DC; color: #BA7517; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+  .param-desc { font-size: 12px; color: #444; line-height: 1.5; }
+
+  /* SCROLLABLE AREA */
+  .screen-content { max-height: 620px; overflow-y: auto; }
+  .screen-content::-webkit-scrollbar { width: 4px; }
+  .screen-content::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>📱 CNCIA — Preview das Telas</h1>
+<p class="subtitle">Visualização após todas as atualizações • Biblioteca com Diagramas + Filtro por Fabricante</p>
+
+<!-- ============ TELA 1: BIBLIOTECA ============ -->
+<div class="phone">
+  <div class="phone-label">📚 Biblioteca de Códigos</div>
+  <div class="status-bar"><span>9:41</span><span>📶</span><span>🔋</span></div>
+  <div class="appbar">
+    <span style="color:#FFC107;font-size:18px;">←</span>
+    <span class="title">Biblioteca CNC</span>
+    <span style="color:#FFC107;font-size:15px;">★ Favs</span>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <span class="icon">🔍</span>
+    <input type="text" placeholder="Buscar G00, M03, interpolação...">
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active">Códigos G</div>
+    <div class="tab">Códigos M</div>
+    <div class="tab">Busca Geral</div>
+  </div>
+
+  <!-- FILTRO FABRICANTE -->
+  <div style="padding:6px 10px 2px;font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.5px;background:#f5f6fa;">
+    Filtrar por Fabricante
+  </div>
+  <div class="filter-row">
+    <div class="chip active">Todos</div>
+    <div class="chip inactive fanuc">Fanuc</div>
+    <div class="chip inactive siemens">Siemens</div>
+    <div class="chip inactive haas">Haas</div>
+    <div class="chip inactive heiden">Heidenhain</div>
+    <div class="chip inactive" style="border-color:#004B8D;color:#004B8D;">Mazak</div>
+    <div class="chip inactive" style="border-color:#8B0000;color:#8B0000;">Okuma</div>
+  </div>
+
+  <div class="screen-content">
+    <div class="section-header">Movimento Rápido / Linear</div>
+
+    <!-- G00 -->
+    <div class="code-card">
+      <div class="code-icon g">G00</div>
+      <div class="code-info">
+        <div class="code-name">Posicionamento Rápido</div>
+        <div class="code-desc">Move a ferramenta na velocidade máxima</div>
+        <div class="code-badges">
+          <span class="badge maq-centro">Centro de Usinagem</span>
+          <span class="badge diagrama">📐 Diagrama</span>
+        </div>
+      </div>
+      <div class="fav-icon">♡</div>
+    </div>
+
+    <!-- G01 -->
+    <div class="code-card">
+      <div class="code-icon g">G01</div>
+      <div class="code-info">
+        <div class="code-name">Interpolação Linear</div>
+        <div class="code-desc">Movimento linear com avanço controlado (F)</div>
+        <div class="code-badges">
+          <span class="badge maq-centro">Centro de Usinagem</span>
+          <span class="badge diagrama">📐 Diagrama</span>
+        </div>
+      </div>
+      <div class="fav-icon active">♥</div>
+    </div>
+
+    <!-- G02 -->
+    <div class="code-card">
+      <div class="code-icon g">G02</div>
+      <div class="code-info">
+        <div class="code-name">Arco Horário</div>
+        <div class="code-desc">Interpolação circular no sentido horário</div>
+        <div class="code-badges">
+          <span class="badge maq-centro">Centro de Usinagem</span>
+          <span class="badge diagrama">📐 Diagrama</span>
+        </div>
+      </div>
+      <div class="fav-icon">♡</div>
+    </div>
+
+    <div class="section-header">Spindle / Refrigeração</div>
+
+    <!-- M03 -->
+    <div class="code-card">
+      <div class="code-icon m">M03</div>
+      <div class="code-info">
+        <div class="code-name">Liga Spindle Horário</div>
+        <div class="code-desc">Ativa rotação do eixo no sentido horário</div>
+        <div class="code-badges">
+          <span class="badge maq-centro">Centro de Usinagem</span>
+          <span class="badge diagrama">📐 Diagrama</span>
+        </div>
+      </div>
+      <div class="fav-icon">♡</div>
+    </div>
+
+    <!-- M19 (Siemens) -->
+    <div class="code-card">
+      <div class="code-icon m">M19</div>
+      <div class="code-info">
+        <div class="code-name">Posicionamento do Spindle</div>
+        <div class="code-desc">Para o spindle em posição angular definida</div>
+        <div class="code-badges">
+          <span class="badge maq-centro">Centro de Usinagem</span>
+          <span class="badge fab-siemens">Siemens</span>
+          <span class="badge diagrama">📐 Diagrama</span>
+        </div>
+      </div>
+      <div class="fav-icon">♡</div>
+    </div>
+
+    <!-- M43 (Haas) -->
+    <div class="code-card">
+      <div class="code-icon m">M43</div>
+      <div class="code-info">
+        <div class="code-name">High Gear Spindle (Haas)</div>
+        <div class="code-desc">Seleciona marcha alta para altas rotações</div>
+        <div class="code-badges">
+          <span class="badge maq-centro">Centro de Usinagem</span>
+          <span class="badge fab-haas">Haas</span>
+        </div>
+      </div>
+      <div class="fav-icon">♡</div>
+    </div>
+
+    <!-- M200 (Mazak) -->
+    <div class="code-card">
+      <div class="code-icon m">M200</div>
+      <div class="code-info">
+        <div class="code-name">Modo Sincronizado Mazak</div>
+        <div class="code-desc">Sincroniza eixos em operações complexas</div>
+        <div class="code-badges">
+          <span class="badge maq-torno">Torno CNC</span>
+          <span class="badge fab-mazak">Mazak</span>
+        </div>
+      </div>
+      <div class="fav-icon">♡</div>
+    </div>
+
+    <!-- M38 (Okuma) -->
+    <div class="code-card">
+      <div class="code-icon m">M38</div>
+      <div class="code-info">
+        <div class="code-name">Ar Comprimido Externo (Okuma)</div>
+        <div class="code-desc">Liga ar comprimido para limpeza da peça</div>
+        <div class="code-badges">
+          <span class="badge maq-centro">Centro de Usinagem</span>
+          <span class="badge fab-okuma">Okuma</span>
+          <span class="badge diagrama">📐 Diagrama</span>
+        </div>
+      </div>
+      <div class="fav-icon">♡</div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </div>
+</div>
+
+<!-- ============ TELA 2: DETALHE M03 COM DIAGRAMA ============ -->
+<div class="phone detail-screen">
+  <div class="phone-label">🔍 Detalhe do Código — M03</div>
+  <div class="status-bar"><span>9:41</span><span>📶</span><span>🔋</span></div>
+  <div class="appbar">
+    <span style="color:#fff;font-size:18px;">←</span>
+    <span class="title">M03</span>
+    <span style="color:#aaa;font-size:20px;">♡</span>
+  </div>
+
+  <div class="detail-body">
+    <!-- CHIPS TOPO -->
+    <div class="detail-chips">
+      <div class="detail-chip g">Código M</div>
+      <div class="detail-chip cat" style="background:#f0f0f0;color:#666;">Spindle</div>
+      <div class="detail-chip maq">Centro de Usinagem</div>
+    </div>
+
+    <!-- DIAGRAMA VISUAL -->
+    <div class="detail-card">
+      <div class="detail-card-header amber">
+        <span>📐</span> Diagrama de Movimento
+      </div>
+      <div class="diagrama-container">
+        <svg class="diagrama" width="200" height="200" viewBox="0 0 200 200" style="background:#1C2B3A;border-radius:8px;">
+          <!-- Fundo escuro + borda amber -->
+          <rect width="200" height="200" fill="#1C2B3A" rx="8"/>
+          <rect width="200" height="200" fill="none" stroke="#FFC107" stroke-width="1.5" rx="8"/>
+
+          <!-- Eixo do spindle -->
+          <circle cx="100" cy="100" r="35" fill="none" stroke="#FFC107" stroke-width="2.5" stroke-dasharray="4 2"/>
+          <circle cx="100" cy="100" r="8" fill="#FFC107"/>
+
+          <!-- Setas indicando rotação horária -->
+          <!-- Seta no topo -->
+          <path d="M 90 65 A 35 35 0 0 1 135 100" fill="none" stroke="#FFC107" stroke-width="2.5" marker-end="url(#arrowAmber)"/>
+          <!-- Seta em baixo -->
+          <path d="M 110 135 A 35 35 0 0 1 65 100" fill="none" stroke="#FFC107" stroke-width="2.5" marker-end="url(#arrowAmber)"/>
+
+          <defs>
+            <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#FFC107"/>
+            </marker>
+          </defs>
+
+          <!-- Label CW -->
+          <text x="100" y="160" text-anchor="middle" fill="#FFC107" font-size="11" font-family="monospace" font-weight="bold">CW — Sentido Horário</text>
+          <text x="100" y="174" text-anchor="middle" fill="#888" font-size="9" font-family="monospace">Rotação positiva do eixo</text>
+
+          <!-- S label -->
+          <text x="100" y="104" text-anchor="middle" fill="#1C2B3A" font-size="9" font-family="monospace" font-weight="bold">S</text>
+
+          <!-- Cantos técnicos -->
+          <line x1="8" y1="8" x2="22" y2="8" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="8" y1="8" x2="8" y2="22" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="192" y1="8" x2="178" y2="8" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="192" y1="8" x2="192" y2="22" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="8" y1="192" x2="22" y2="192" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="8" y1="192" x2="8" y2="178" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- O QUE FAZ -->
+    <div class="detail-card">
+      <div class="detail-card-header green">
+        <span>ℹ️</span> O que faz
+      </div>
+      <div class="detail-text">
+        Ativa a rotação do spindle (eixo-árvore) no sentido horário (CW — Clockwise), que é o sentido padrão para a maioria das ferramentas de corte. Deve ser sempre combinado com o código S para definir a rotação em RPM.
+      </div>
+    </div>
+
+    <!-- SINTAXE -->
+    <div class="detail-card">
+      <div class="detail-card-header blue">
+        <span>{ }</span> Sintaxe
+      </div>
+      <div class="code-block">M03 S[rotação]<br><br>Exemplo:<br>M03 S1200</div>
+    </div>
+
+    <!-- PARÂMETROS -->
+    <div class="detail-card">
+      <div class="detail-card-header orange">
+        <span>⚙️</span> Parâmetros
+      </div>
+      <div class="param-row">
+        <div class="param-letter">S</div>
+        <div class="param-desc">Rotação em RPM — velocidade do spindle (ex: S1200 = 1200 RPM)</div>
+      </div>
+    </div>
+
+    <!-- EXEMPLO REAL -->
+    <div class="detail-card">
+      <div class="detail-card-header green">
+        <span>▶</span> Exemplo real
+      </div>
+      <div class="code-block green">T01 M06<br>G43 H01 Z50.<br>M03 S1500<br>G00 X0. Y0.<br>G01 Z-5. F200<br>M05</div>
+      <div style="height:10px;"></div>
+      <div class="detail-text" style="color:#888;font-size:12px;">
+        Seleciona ferramenta T01, compensa comprimento, liga spindle a 1500 RPM, posiciona e inicia o corte a 200mm/min. M05 para o spindle ao final.
+      </div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </div>
+</div>
+
+<!-- ============ TELA 3: DETALHE G02 ARCO ============ -->
+<div class="phone detail-screen">
+  <div class="phone-label">🔍 Detalhe — G02 Arco Horário</div>
+  <div class="status-bar"><span>9:41</span><span>📶</span><span>🔋</span></div>
+  <div class="appbar">
+    <span style="color:#fff;font-size:18px;">←</span>
+    <span class="title">G02</span>
+    <span style="color:#aaa;font-size:20px;">♡</span>
+  </div>
+
+  <div class="detail-body">
+    <div class="detail-chips">
+      <div class="detail-chip g" style="background:#FFF3DC;color:#BA7517;">Código G</div>
+      <div class="detail-chip cat">Interpolação Circular</div>
+      <div class="detail-chip maq">Centro de Usinagem</div>
+    </div>
+
+    <!-- DIAGRAMA ARCO -->
+    <div class="detail-card">
+      <div class="detail-card-header amber"><span>📐</span> Diagrama de Movimento</div>
+      <div class="diagrama-container">
+        <svg class="diagrama" width="200" height="200" viewBox="0 0 200 200" style="background:#1C2B3A;border-radius:8px;">
+          <rect width="200" height="200" fill="#1C2B3A" rx="8"/>
+          <rect width="200" height="200" fill="none" stroke="#FFC107" stroke-width="1.5" rx="8"/>
+
+          <!-- Grade de referência -->
+          <line x1="30" y1="30" x2="30" y2="170" stroke="#ffffff15" stroke-width="1"/>
+          <line x1="170" y1="30" x2="170" y2="170" stroke="#ffffff15" stroke-width="1"/>
+          <line x1="30" y1="30" x2="170" y2="30" stroke="#ffffff15" stroke-width="1"/>
+          <line x1="30" y1="170" x2="170" y2="170" stroke="#ffffff15" stroke-width="1"/>
+
+          <!-- Eixos -->
+          <line x1="100" y1="20" x2="100" y2="180" stroke="#ffffff30" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="20" y1="100" x2="180" y2="100" stroke="#ffffff30" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="175" y="97" fill="#ffffff50" font-size="8">X</text>
+          <text x="103" y="18" fill="#ffffff50" font-size="8">Y</text>
+
+          <!-- Centro -->
+          <circle cx="100" cy="100" r="3" fill="#FFC10760"/>
+          <line x1="97" y1="100" x2="103" y2="100" stroke="#FFC10760" stroke-width="1"/>
+          <line x1="100" y1="97" x2="100" y2="103" stroke="#FFC10760" stroke-width="1"/>
+
+          <!-- Raio (R) -->
+          <line x1="100" y1="100" x2="160" y2="100" stroke="#FFC10740" stroke-width="1" stroke-dasharray="4 2"/>
+          <text x="127" y="95" fill="#FFC107" font-size="8">R</text>
+
+          <!-- ARCO CW — do ponto (160,100) até (100,40) horário -->
+          <path d="M 160 100 A 60 60 0 0 1 100 40" fill="none" stroke="#FFC107" stroke-width="2.5" marker-end="url(#arrowArc)"/>
+
+          <defs>
+            <marker id="arrowArc" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#FFC107"/>
+            </marker>
+          </defs>
+
+          <!-- Ponto início -->
+          <circle cx="160" cy="100" r="5" fill="#FFC107"/>
+          <text x="162" y="115" fill="#FFC107" font-size="8">Início</text>
+
+          <!-- Ponto fim -->
+          <circle cx="100" cy="40" r="5" fill="#7EC8A4"/>
+          <text x="105" y="38" fill="#7EC8A4" font-size="8">Fim</text>
+
+          <text x="100" y="185" text-anchor="middle" fill="#FFC107" font-size="9" font-family="monospace" font-weight="bold">G02 — Arco Sentido Horário</text>
+
+          <!-- Cantos técnicos -->
+          <line x1="8" y1="8" x2="22" y2="8" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="8" y1="8" x2="8" y2="22" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="192" y1="8" x2="178" y2="8" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+          <line x1="192" y1="8" x2="192" y2="22" stroke="#FFC107" stroke-width="1" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-header green"><span>ℹ️</span> O que faz</div>
+      <div class="detail-text">Executa interpolação circular no sentido horário (CW). A ferramenta percorre um arco de circunferência do ponto atual até o ponto final, no sentido dos ponteiros do relógio, visto do plano XY.</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-header blue"><span>{ }</span> Sintaxe</div>
+      <div class="code-block">G02 X[fim_X] Y[fim_Y] R[raio] F[avanço]<br>ou<br>G02 X[fim_X] Y[fim_Y] I[offset_X] J[offset_Y] F[avanço]</div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-card-header green"><span>▶</span> Exemplo real</div>
+      <div class="code-block green">G00 X50. Y0.<br>G01 Z-3. F300<br>G02 X0. Y50. R50. F200<br>G00 Z50.</div>
+      <div style="height:10px;"></div>
+      <div class="detail-text" style="color:#888;font-size:12px;">Faz um quarto de círculo (arco de 90°) de raio 50mm no sentido horário, do ponto (50,0) até (0,50).</div>
+    </div>
+    <div style="height:20px;"></div>
+  </div>
+</div>
+
+</body>
+</html>

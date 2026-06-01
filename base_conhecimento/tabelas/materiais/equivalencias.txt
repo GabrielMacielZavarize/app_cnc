@@ -1,0 +1,144 @@
+# TABELA DE EQUIVALENCIAS INTERNACIONAIS DE MATERIAIS - MESTRE CNC
+# Uso interno: contexto injetado automaticamente pelo servidor quando o operador cita códigos de norma estrangeira.
+# Formato: NOME_COMERCIAL | AISI/SAE | DIN | ISO | JIS | NF (França) | BS (Reino Unido)
+
+==============================================================================
+ACOS CARBONO (USO GERAL E USINAGEM)
+==============================================================================
+
+Aço Carbono Baixo (Construção):
+  AISI/SAE 1020 | DIN C22 | ISO C22E | JIS S20C | NF XC18 | BS 040A20
+  Vc tipica (HSS): 25-35 m/min | Vc (Metal Duro): 80-130 m/min
+  Dureza tipica: 131-163 HB | Tensao Rm: ~420 MPa
+
+Aço Carbono Médio (Eixos, Pinos, Chavetas):
+  AISI/SAE 1045 | DIN C45 | ISO C45E4 | JIS S45C | NF XC45 | BS 080M46
+  Vc tipica (HSS): 20-30 m/min | Vc (Metal Duro): 60-120 m/min
+  Dureza tipica: 170-210 HB | Tensao Rm: ~600-700 MPa
+  Equivalente direto: C45 (DIN) = 1045 (AISI) = S45C (JIS)
+
+Aço Carbono Alto (Molas, Ferramentas Simples):
+  AISI/SAE 1080 | DIN C80 | ISO C80U | JIS S80C | NF XC80
+  Vc tipica (Metal Duro): 50-90 m/min
+  Dureza tipica: 220-260 HB
+
+==============================================================================
+ACOS LIGA (TRATADOS TERMICAMENTE - ALTA RESISTENCIA)
+==============================================================================
+
+Aço Liga Cr-Mo (Virabrequins, Engrenagens, Eixos de Alta Carga):
+  AISI/SAE 4140 | DIN 42CrMo4 | ISO 42CrMo4 | JIS SCM440 | NF 42CD4 | BS 708M40
+  Vc tipica (Metal Duro): 50-100 m/min (recozido) | 30-70 m/min (temperado)
+  Dureza tipica (recozido): 197-241 HB | (temperado/revenido): 28-36 HRC
+  Equivalente direto: 42CrMo4 (DIN) = 4140 (AISI) = SCM440 (JIS)
+
+Aço Liga Cr-Mo Menor Teor (Parafusos, Pinos de Alta Resistencia):
+  AISI/SAE 4130 | DIN 25CrMo4 | ISO 25CrMo4 | JIS SCM430 | NF 25CD4
+  Vc tipica (Metal Duro): 60-110 m/min (recozido)
+  Dureza tipica: 197-229 HB
+
+Aço Liga Ni-Cr-Mo (Engrenagens Cementadas, Alta Tenacidade):
+  AISI/SAE 8620 | DIN 20NiCrMo2 | ISO 20NiCrMo2 | JIS SNCM220 | NF 20NCD2
+  Vc tipica (Metal Duro): 60-100 m/min
+  Dureza tipica: 156-207 HB
+
+Aço Liga Cr (Rolamentos, Alta Dureza Superficial):
+  AISI/SAE 52100 | DIN 100Cr6 | ISO 100Cr6 | JIS SUJ2 | NF 100C6 | BS 534A99
+  Vc tipica (Metal Duro): 50-80 m/min (recozido)
+  Dureza tipica: 183-212 HB
+  Equivalente direto: 100Cr6 (DIN) = 52100 (AISI) = SUJ2 (JIS)
+
+==============================================================================
+ACOS INOXIDAVEIS
+==============================================================================
+
+Inox Austenitico Universal (Quimica, Alimenticio, Medico):
+  AISI 304 | DIN X5CrNi18-10 | ISO 304 | JIS SUS304 | NF Z6CN18-09 | BS 304S15
+  Vc tipica (Metal Duro): 60-100 m/min | Avanco f: 0.08-0.20 mm/rot
+  Dureza tipica: 180-200 HB | Tensao Rm: ~520-720 MPa
+  ATENCAO: Alto encruamento - usar avanco positivo, evitar cortes rasos.
+
+Inox Austenitico com Molibdenio (Marinho, Farmaceutico):
+  AISI 316 | DIN X5CrNiMo17-12-2 | ISO 316 | JIS SUS316 | NF Z6CND17-12 | BS 316S31
+  Vc tipica (Metal Duro): 50-90 m/min | Avanco f: 0.10-0.20 mm/rot
+  Dureza tipica: 180-220 HB | Tensao Rm: ~520-680 MPa
+  Equivalente direto: X5CrNiMo17-12-2 (DIN) = 316 (AISI) = SUS316 (JIS)
+
+Inox Ferritico (Cutelaria, Automovel - Acabamento):
+  AISI 430 | DIN X6Cr17 | ISO 430 | JIS SUS430 | NF Z8C17
+  Vc tipica (Metal Duro): 80-130 m/min
+  Dureza tipica: 160-185 HB
+
+Inox Martensitico (Cutelaria Industrial, Eixos Resistentes a Corrosao):
+  AISI 420 | DIN X20Cr13 | ISO 420 | JIS SUS420J2 | NF Z20C13
+  Vc tipica (Metal Duro): 60-100 m/min (recozido)
+
+==============================================================================
+ALUMINIOS (LIGAS PARA USINAGEM E ESTRUTURAL)
+==============================================================================
+
+Aluminio Estrutural Automotivo e Aeronautico (Liga Principal):
+  Aluminio 6061 | ISO AlMg1SiCu | DIN AlMgSi1 | JIS A6061 | NF A-GS
+  Vc tipica (Metal Duro): 300-600 m/min | Avanco f: 0.10-0.30 mm/rot
+  Dureza tipica: 95-100 HB | Tensao Rm (T6): ~310 MPa
+  Equivalente direto: AlMg1SiCu (ISO) = 6061 (AA) = AlMgSi1 (DIN)
+
+Aluminio Alta Resistencia (Aeronautico, Estrutural - Serie 7000):
+  Aluminio 7075 | ISO AlZn5.5MgCu | DIN AlZnMgCu1.5 | JIS A7075 | NF A-Z5GU
+  Vc tipica (Metal Duro): 250-500 m/min | Avanco f: 0.08-0.25 mm/rot
+  Dureza tipica: 135-175 HB | Tensao Rm (T6): ~570 MPa
+  Equivalente direto: AlZn5.5MgCu (ISO) = 7075 (AA) = AlZnMgCu1.5 (DIN)
+
+Aluminio para Fundicao e Usinagem Facil (Serie 2000):
+  Aluminio 2024 | ISO AlCu4Mg1 | DIN AlCuMg2 | JIS A2024 | NF A-U4G1
+  Vc tipica (Metal Duro): 300-500 m/min
+  Dureza tipica: 120-130 HB | Tensao Rm (T4): ~470 MPa
+
+Aluminio para Perfis e Extrusao:
+  Aluminio 6063 | ISO AlMg0.7Si | DIN AlMgSi0.5 | JIS A6063
+  Vc tipica (Metal Duro): 350-600 m/min
+  Dureza tipica: 60-70 HB
+
+==============================================================================
+COBRES E BRONZES
+==============================================================================
+
+Bronze Fosforoso (Buchas, Mancais, Alta Resistencia ao Desgaste):
+  CuSn8 (ISO) | CuSn8P (DIN) | C52100 (ASTM) | JIS C5191
+  Vc tipica (HSS): 60-80 m/min | Vc (Metal Duro): 150-250 m/min
+  Dureza tipica: 90-120 HB
+
+Latao (Usinabilidade Maxima - Referencia 100%):
+  CuZn39Pb3 (ISO/DIN) | C38000 (ASTM) | JIS C3604
+  Vc tipica (Metal Duro): 200-400 m/min
+  Dureza tipica: 80-100 HB
+
+==============================================================================
+FERROS FUNDIDOS
+==============================================================================
+
+Ferro Fundido Cinzento (Bases de Maquinas, Blocos de Motor):
+  GJL-250 (ISO/DIN antigo GG25) | ASTM A48 Classe 30 | JIS FC250
+  Vc tipica (Metal Duro): 80-150 m/min | Avanco f: 0.20-0.40 mm/rot
+  Dureza tipica: 180-240 HB
+  Equivalente direto: GG25 (DIN antigo) = GJL-250 (DIN atual) = FC250 (JIS)
+
+Ferro Fundido Nodular (Virabrequins, Articulacoes - Alta Tenacidade):
+  GJS-500-7 (ISO/DIN antigo GGG50) | ASTM A536 Grau 65-45-12 | JIS FCD500
+  Vc tipica (Metal Duro): 80-140 m/min
+  Dureza tipica: 170-230 HB
+
+==============================================================================
+TABELA RESUMO DE SINONIMOS RAPIDOS (BUSCA POR CODIGO)
+==============================================================================
+
+C45      = AISI 1045 = S45C = XC45
+C22      = AISI 1020 = S20C = XC18
+42CrMo4  = AISI 4140 = SCM440 = 42CD4
+100Cr6   = AISI 52100 = SUJ2 = 100C6
+316      = X5CrNiMo17-12-2 = SUS316
+304      = X5CrNi18-10 = SUS304
+6061     = AlMg1SiCu = AlMgSi1 = A6061
+7075     = AlZn5.5MgCu = AlZnMgCu1.5 = A7075
+GG25     = GJL-250 = FC250
+GGG50    = GJS-500-7 = FCD500

@@ -353,6 +353,85 @@ async def gerar_programa(request: ConsultaRequest, api_key_header: Optional[str]
         return ConsultaResponse(resposta=fallback_error_msg)
 
 
+# -------------------------------------------------------------------------
+# ENDPOINT DE ANÁLISE COM IA (texto + imagem) — usado pela tela de IA do app
+# -------------------------------------------------------------------------
+
+class AnaliseRequest(BaseModel):
+    tipo: str = "geral"
+    texto: Optional[str] = None
+    imagem: Optional[str] = None  # imagem em base64 (sem o prefixo data:image/...)
+
+
+_PROMPTS_ANALISE = {
+    "geral": "Faça um diagnóstico técnico CNC completo do que foi enviado: identifique o contexto, "
+             "as possíveis causas e as ações corretivas, com terminologia profissional.",
+    "erro": "Diagnostique este alarme/erro de CNC. Identifique o fabricante (Fanuc, Siemens, Haas, Mazak, "
+            "Mitsubishi...), o código e a descrição oficial, a urgência, liste as causas prováveis com "
+            "probabilidade aproximada, os passos de solução na ordem correta e quando chamar o técnico.",
+    "peca": "Analise esta peça/setup de CNC. Identifique o material específico (liga e grau, ex.: Alumínio "
+            "6061-T6), o tipo de peça e as operações, estime dimensões e acabamento (Ra), recomende parâmetros "
+            "de corte (Vc, fz, ap, ae, RPM) e ferramentas adequadas, e aponte os pontos de atenção e a "
+            "sequência de operações.",
+    "programa": "Revise este programa CNC. Aponte erros de sintaxe, riscos de colisão, faltas de segurança "
+                "(avanço, refrigeração, plano de retorno) e sugira melhorias de produtividade.",
+    "ferramenta": "Avalie o estado desta ferramenta de corte. Identifique o tipo e o desgaste visível (flanco, "
+                  "cratera, lascamento, aresta postiça), diga se deve ser trocada e recomende parâmetros ou "
+                  "correções para prolongar a vida útil.",
+    "parametros": "Sugira parâmetros de corte para a situação descrita: velocidade de corte (Vc), avanço "
+                  "(fz e F), profundidade (ap e ae) e RPM, justificando com base no material e na ferramenta. "
+                  "Se faltarem dados críticos (material, diâmetro, ferramenta), peça-os antes de concluir.",
+}
+
+
+def _chamar_gemini_multimodal(contents: list) -> str:
+    """Chama o Gemini com retry/backoff e devolve o texto (sem schema JSON)."""
+    model = genai.GenerativeModel(model_name="gemini-2.5-flash", system_instruction=SYSTEM_PROMPT)
+    delay = 1.0
+    for tentativa in range(5):
+        try:
+            response = model.generate_content(contents=contents, generation_config={"temperature": 0.3})
+            return response.text
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"Análise — tentativa {tentativa + 1} falhou: {e}")
+            if tentativa == 4:
+                raise
+            time.sleep(delay)
+            delay *= 2
+    return ""
+
+
+@app.post("/analisar", response_model=ConsultaResponse)
+async def analisar(request: AnaliseRequest):
+    api_key = os.environ.get("GEMINI_API_KEY", "")
+    if not api_key:
+        raise HTTPException(status_code=401, detail="Chave API do Gemini não configurada no servidor.")
+    genai.configure(api_key=api_key)
+
+    if not request.texto and not request.imagem:
+        raise HTTPException(status_code=400, detail="Envie um texto ou uma imagem para análise.")
+
+    prompt = _PROMPTS_ANALISE.get(request.tipo, _PROMPTS_ANALISE["geral"])
+    if request.texto:
+        prompt += f"\n\nInformações do operador:\n{request.texto}"
+        prompt += _montar_contexto_enriquecido(request.texto)
+
+    parts: list = [{"text": prompt}]
+    if request.imagem:
+        parts.append({"inline_data": {"mime_type": "image/jpeg", "data": request.imagem}})
+
+    try:
+        resposta = _chamar_gemini_multimodal([{"role": "user", "parts": parts}])
+        logger.info("Análise IA (%s) processada com sucesso 200 OK", request.tipo)
+        return ConsultaResponse(resposta=resposta.strip())
+    except Exception as e:  # noqa: BLE001
+        logger.error(f"Falha na análise de IA: {e}")
+        return ConsultaResponse(
+            resposta="Não foi possível concluir a análise no momento devido a uma instabilidade na conexão "
+                     "com a IA. Verifique sua internet e tente novamente."
+        )
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)

@@ -1,0 +1,21 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#1A1A2E"/>
+  <g transform="translate(256 196)">
+    <!-- dentes da engrenagem -->
+    <g fill="#E8A020">
+      <rect x="-16" y="-118" width="32" height="40" rx="6"/>
+      <rect x="-16" y="78" width="32" height="40" rx="6"/>
+      <rect x="-118" y="-16" width="40" height="32" rx="6"/>
+      <rect x="78" y="-16" width="40" height="32" rx="6"/>
+      <g transform="rotate(45)">
+        <rect x="-16" y="-118" width="32" height="40" rx="6"/>
+        <rect x="-16" y="78" width="32" height="40" rx="6"/>
+        <rect x="-118" y="-16" width="40" height="32" rx="6"/>
+        <rect x="78" y="-16" width="40" height="32" rx="6"/>
+      </g>
+    </g>
+    <circle cx="0" cy="0" r="86" fill="none" stroke="#E8A020" stroke-width="30"/>
+    <circle cx="0" cy="0" r="26" fill="#E8A020"/>
+  </g>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="104" fill="#FFFFFF">CNC<tspan fill="#E8A020">IA</tspan></text>
+</svg>
